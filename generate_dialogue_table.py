@@ -78,9 +78,15 @@ def create_table(character: str = 'Cait') -> pd.core.frame.DataFrame:
 
 if __name__=='__main__':
     try:
-        character_name = str(sys.argv[1]).replace(' ', '_')
+        if len(sys.argv) > 1:
+            character_name = str(sys.argv[1]).replace(' ', '_')
+        else:
+            character_name = 'Cait'
+
         table = create_table(character_name)
         table.to_csv(f'{character_name.lower()}_dialogue.csv', index = False)
         print('A new dialogue file has been created!')
+
     except:
         print('A new dialogue file could not be created. Exiting program.')
+        
