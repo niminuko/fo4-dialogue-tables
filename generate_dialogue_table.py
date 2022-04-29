@@ -30,7 +30,7 @@ def purge_nondialogue(entry: str) -> str:
             entry[idx] = '*'
     return entry
 
-def create_table(character: str = 'Cait') -> None:
+def create_table(character: str = 'Cait') -> pd.core.frame.DataFrame:
     '''
     Given the name of a character from Fallout 4,
     generate a table containing all dialogue of
@@ -74,11 +74,13 @@ def create_table(character: str = 'Cait') -> None:
     for idx, cat in enumerate(df.columns):
         df[cat] = trimmed_purge[idx]
 
-    df.to_csv(f'{str(character).lower().replace(" ", "_")}_dialogue.csv', index = False)
+    return df
 
 if __name__=='__main__':
     try:
-        create_table(str(sys.argv[1]).replace(' ', '_'))
+        character_name = str(sys.argv[1]).replace(' ', '_')
+        table = create_table(character_name)
+        table.to_csv(f'{character_name.lower()}_dialogue.csv', index = False)
         print('A new dialogue file has been created!')
     except:
         print('A new dialogue file could not be created. Exiting program.')
